@@ -1,20 +1,15 @@
-package br.applabbs.webappexemplo
+package br.applabbs.webappexemplo.View
 
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import br.applabbs.webappexemplo.R
 import kotlinx.android.synthetic.main.activity_editar.*
 
 class EditarActivity : AppCompatActivity() {
 
     private lateinit var context: Context
-
-//    companion object {
-//        const val TK_Cidade = "cidade"
-//        const val TK_Estado = "estado"
-//        const val TK_Codigo = "codigo"
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,13 +22,12 @@ class EditarActivity : AppCompatActivity() {
 
     fun initVar(){
         context = this@EditarActivity
-        val cidade = intent.getStringExtra("TK_Cidade")
-        val estado = intent.getStringExtra("TK_Estado")
-        val codigo = intent.getStringExtra("TK_Codigo")
 
-        edt_cidade.setText(cidade)
-        edt_estado.setText(estado)
-        edt_codigo.setText(codigo)
+        val dados: Bundle = intent.extras
+
+        edt_cidade.setText(dados.getString("TK_Cidade"))
+        edt_estado.setText(dados.getString("TK_Estado"))
+        edt_codigo.setText(dados.getInt("TK_Codigo"))
 
         btn_salvar_alteracoes.requestFocus()
     }
