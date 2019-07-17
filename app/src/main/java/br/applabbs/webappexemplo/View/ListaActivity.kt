@@ -39,6 +39,8 @@ class ListaActivity : AppCompatActivity() {
         context = this@ListaActivity
 
         listView_details = findViewById<ListView>(R.id.lv_cidades) as ListView
+
+        //Endereço do JSON que será consumido pelo app
         run("http://relatorios.spotpromo.com.br/teste/mobile/jsonTest.php")
     }
 
@@ -65,29 +67,27 @@ class ListaActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 var str_response = response.body!!.string()
-                //creating json object
-                val json_contact: JSONObject = JSONObject(str_response)
-
-                //creating json array
+                val json_contact : JSONObject = JSONObject(str_response)
                 var jsonarray_info: JSONArray = json_contact.getJSONArray("CIDADES")
-
                 var i : Int = 0
-
                 var size:Int = jsonarray_info.length()
 
                 arrayList_details = ArrayList()
 
+                //Faz um loop pra varrer todo o objeto JSON [cidades]
                 for (i in 0.. size - 1) {
                     var json_objectdetail:JSONObject = jsonarray_info.getJSONObject(i)
                     var model: Modelo = Modelo()
                     model.cidade = json_objectdetail.getString("cidade")
                     model.estado = json_objectdetail.getString("uf")
                     model.codigo = json_objectdetail.getString("codCidade")
+
+                    //Adiciona os objetos encontrados dentro da String
                     arrayList_details.add(model)
                 }
 
                 runOnUiThread {
-                    //stuff that updates ui
+                    //Atualiza a lista usando o adapter
                     val obj_adapter : Adapter
                     obj_adapter = Adapter(applicationContext, arrayList_details)
                     listView_details.adapter = obj_adapter
